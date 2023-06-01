@@ -1,0 +1,179 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+{% csrf_token %}
+
+                            <head>
+                                <meta charset='utf-8'>
+                                <meta name='viewport' content='width=device-width, initial-scale=1'>                                
+                                <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' rel='stylesheet'>
+                                <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
+                                <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+                            </head>
+                                <style>::-webkit-scrollbar {
+                                  width: 8px;
+                                }
+                                /* Track */
+                                ::-webkit-scrollbar-track {
+                                  background: #f1f1f1; 
+                                }
+                                 
+                                /* Handle */
+                                ::-webkit-scrollbar-thumb {
+                                  background: #888; 
+                                }
+                                
+                                /* Handle on hover */
+                                ::-webkit-scrollbar-thumb:hover {
+                                  background: #555; 
+                                } @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+body{
+    
+    padding-top: 100px;  
+    background-color: #eee;
+}
+
+#order-heading{
+    background-color: #baffc9;
+    position: relative;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    max-width: 800px;
+    padding-top: 20px;
+    margin: 30px auto 0px;
+}
+.wrapper{
+    padding: 0px 50px 50px;
+    max-width: 800px;
+    margin: 0px auto 40px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+.table th {
+    border-top: none;
+}
+.table thead tr.text-uppercase th{
+    font-size: 0.8rem;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.table tbody tr th,
+.table tbody tr td{
+    font-size: 0.9rem;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 5px;
+}
+
+p.text-justify{
+    font-size: 0.9rem;
+    margin: 0;
+}
+.row{
+    margin: 0px;
+}
+.subscriptions{
+    border: 1px solid #ddd;
+    border-left: 5px solid #ffa500;
+    padding: 10px;
+}
+.subscriptions div{
+    font-size: 0.9rem;
+}
+.light-text {
+  color: lightgray;
+  text-shadow: 1px 1px 2px white;
+}
+.btn-l {
+  padding: 10px 30px;
+  font-size: 20px;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+    
+  </style>
+     
+     <section>
+      <div class="d-flex flex-column justify-content-center align-items-center" id="order-heading">
+    <div class="text-uppercase">
+        <p></p>
+    </div>
+    <div class="h1">Thank You!</div>
+    <div class="pt-1">
+        <p class="h3">Your booking has been confirmed</p>
+    </div><div><br></div>
+    
+</div>
+<div class="wrapper bg-white">
+    <div><br></div>
+    <div class="row border rounded p-1 my-3">
+        <div class="col-md-0 py-3">
+            <div class="d-flex flex-column align-items start">
+                <h2>Your Flying Details</h2>
+                <p class="text-justify"><b>Departure: </b> {{book.source}}</p>
+                <p class="text-justify"><b>Destination: </b> {{book.destination}}</p>
+                <p class="text-justify"><b>Airline: </b>{{book.flight_name}}</p>
+                <p class="text-justify"><b>Date: </b>{{book.date}} <b>Time: </b>{{book.time|date:"g:i A"}}</p>
+            </div>
+        </div>
+        
+    </div>
+    
+       
+    
+    <div class="d-flex justify-content-start align-items-center pl-3 py-3 mb-0 ">
+        <div class="text-muted">
+        <h5>Tickets Price for {{book.tickets}}</h5>
+        </div>
+        <div class="ml-auto h5">
+            AUD ${{book.price}} <span style="color:gray">X</span> {{book.tickets}}
+        </div>
+    </div>
+    <div class="d-flex justify-content-start align-items-center pl-3 py-0 mb-4 border-bottom">
+        <div class="text-muted">
+        <h5>Today's Total</h5>
+        </div>
+        <div class="ml-auto h5">
+            AUD ${{cost}}
+        </div>
+    </div>
+  
+    <div class="pl-3 font-weight-bold">Related Booking Information</div>
+    <div class="d-sm-flex justify-content-between rounded my-3 subscriptions">
+        <div>
+            <b>{{book.id}}</b>
+        </div>
+        <div><span id="time"></span></div>
+        <div>Status: Booked</div>
+        <div>
+            Total: AUD $<b>{{cost}} for {{book.tickets}} Tickets</b>
+        </div>
+    </div>
+</div>
+<script type='text/javascript' src='https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js'></script>
+<script>
+    function refreshTime() {
+      const timeDisplay = document.getElementById("time");
+      const dateString = new Date().toLocaleString();
+      const formattedString = dateString.replace(", ", " - ");
+      timeDisplay.textContent = formattedString;
+    }
+    setInterval(refreshTime, 1000);
+  </script>
+<div class="center">
+    <a style="margin-right: 50px;" href="{% url 'seebookings' %}" type="button" class="btn-l btn btn-success">View Booking</a>
+    <a type="button" href="{% url 'home' %}" class="btn-l btn btn-primary">Back to Home</a>
+</div>
+</section>
+<br>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+{% load static %}
+<style>
+    body {
+      padding-top: 100px;
+    }
+    /* .my-table {
+  max-width: 1300px;
+  margin: 0 auto; Center the table horizontally */
+/* } */
+
+    </style>
+    <body>
+        <section class="jumbotron text-center">
+            <div class="container" bis_skin_checked="1">
+              <h1 class="jumbotron-heading">Find Your Best-Fit Flight Option</h1>
+              <p class="lead text-muted">Get ready to take off with our selection of available flights. Whether you're traveling for business or pleasure, we have options to suit every budget and schedule. Plus, our 24/7 customer service team is always here to help you with any questions or concerns</p>
+
+            </div>
+          </section>
+          <div><br></div>
+<section>
+    <h3>{{msg}}</h3>
+<div class="container mx-auto">
+    <table class="table-responsive table align-middle mb-0 bg-white my-table">
+        <thead class="bg-light">
+          <tr>            
+            <th>Airline</th>                        
+            <th>Available Seats</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Class</th>
+            <th>Price (AUD)</th>
+            <th>Booking</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for row in flight_list %}
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">
+                <img
+                    src="{% static 'img/ficon.jpg' %}"                    
+                    style="width: 45px; height: 45px"
+                    class="rounded-circle"
+                    />
+                <div class="ms-3">
+                  <p class="fw-bold mb-1" style="display: inline-block;">{{row.flight_name}}</p><span style="display: inline-block;">&nbsp;- {{row.id}}</span>
+                  <p class="text-muted mb-0">{{row.source}} to {{row.destination}}</p>
+                </div>
+              </div>
+            </td>            
+            <td>
+              <span class="badge badge-success rounded-pill d-inline">{{row.atickets}}</span>
+            </td>
+            <td>{{row.date}}</td>
+            <td>{{row.time|date:"g:i A" }}</td>
+            <td>{{row.tclass}}</td>
+            <td>AUD ${{row.price}}</td>
+            <td>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-link btn-sm btn-rounded" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+                    Book Now
+                  </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Your Flight to {{row.destination}}</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>{{row.source}} to {{row.destination}}</strong></p>                            
+                            <p><b>Date: </b>{{row.date}} <b>Time: </b> {{row.time|date:"g:i A"}}</p>
+                            <p>{{row.flight_name}} - {{row.id}} - {{row.tclass}}</p> 
+                            <P><b>Available Seats: </b>{{row.atickets}}</P>                           
+                            <form action="{% url 'bookings' %}" method="post">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                  <label for="num-tickets" class="form-label">Add number of seats you need to book.</label>
+                                  <div class="input-group">
+                                    <input type="hidden" name="flight_id" value="{{row.id}}">
+                                    <input type="number" name='no_seats' required class="form-control" placeholder="Number of seats:" />                                    
+                                  </div>
+                                </div>
+                          </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Book Now</button>
+                        </div>
+                    </form>
+                    </div>
+                    </div>
+                </div>            
+          </tr>    
+          
+          {% endfor %}
+        </tbody>
+      </table> 
+    </div>   
+    </section>
+
+
+{% endblock %}

@@ -1,0 +1,214 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<!-- Section: Design Block -->
+<section class="overflow-hidden bg-image">
+    <style>
+    
+    .bg-image {
+    background-image: url('{% static 'img/flight.jpg' %}');
+    background-size: cover;
+    height: 100vh;
+    position: relative;
+}
+
+.bg-image::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+  
+      .bg-glass {
+        background-color: hsla(0, 0%, 100%, 0.9) !important;
+        backdrop-filter: saturate(200%) blur(25px);
+      }
+    </style>
+  
+    <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+      <div class="row gx-lg-5 align-items-center mb-5">
+        <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+          <h1 class="my-5 display-5 fw-bold" style=" color: black">
+            The Best Deals <br />
+            <span style="color: #3b71cb">for Your Flight Bookings</span>
+          </h1>
+          <p class="mb-4" style="color: black">
+            Welcome to ZAG BOOKING, where we offer the best flight booking deals 
+            to make your travels more affordable and enjoyable. With our easy-to-use platform 
+            and wide selection of flights from top airlines, you can easily find and book 
+            your next trip hassle-free. Let us take care of your travel needs 
+            while you sit back, relax, and enjoy your flight. Book with us now 
+            and experience the convenience of ZAG BOOKING.
+          </p>
+        </div>
+  
+        <div class="col-lg-6 mb-5 mb-lg-0 position-relative">  
+          <div class="card bg-glass">
+            <div class="card-body px-4 py-5 px-md-5">
+                <form action="{% url 'findflight' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="btn-group">
+                            <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked />
+                            <label class="btn btn-secondary" for="option1">One way</label>
+                          
+                            <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off" />
+                            <label class="btn btn-secondary" for="option2">Roundtrip</label>
+                          
+                            <input type="radio" class="btn-check" name="options" id="option3" autocomplete="off" />
+                            <label class="btn btn-secondary" for="option3">Multi-City</label>
+                          </div>
+                        
+                    </div>
+                    <div><br></div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">                                
+                                <div>
+                                    <select name="source" class="form-select" aria-label="Default select example" required>
+                                        <option selected>Flying From</option>
+                                        <option value="Australia - Sydney (SYD)">Sydney Airport (SYD) - Australia (AU)</option>
+                                        <option value="Australia - Melbourne (MEL)">Melbourne Airport (MEL) - Australia (AU)</option>
+                                        <option value="Australia - Brisbane (BNE)">Brisbane Airport (BNE) - Australia (AU)</option>
+                                        <option value="Australia - Adelaide (ADL)">Adelaide Airport (ADL) - Australia (AU)</option>
+                                        <option value="Australia - Perth (PER)">Perth Airport (PER) - Australia (AU)</option>
+                                        <option value="Sri Lanka - Colombo (CMB)">Bandaranaike International Airport (CMB) - Sri Lanka (LK)</option>
+                                        <option value="Sri Lanka - Hambantota (HRI)">Mattala Rajapaksa International Airport (HRI) - Sri Lanka (LK)</option>
+                                        <option value="United States - New York City (JFK)">John F. Kennedy International Airport (JFK) - United States (US)</option>
+                                        <option value="United States - Los Angeles (LAX)">Los Angeles International Airport (LAX) - United States (US)</option>
+                                        <option value="United States - Chicago (ORD)">O'Hare International Airport (ORD) - United States (US)</option>
+                                        <option value="United States - Dallas/Fort Worth (DFW)">Dallas/Fort Worth International Airport (DFW) - United States (US)</option>
+                                        <option value="United Kingdom - London (LHR)">Heathrow Airport (LHR) - United Kingdom (UK)</option>
+                                        <option value="United Kingdom - London (LGW)">Gatwick Airport (LGW) - United Kingdom (UK)</option>
+                                        
+
+                                      </select>                                  
+                                  </div>
+                                  <div class="">
+                                    <span id="textExample2" class="form-text"> Enter City or the airport. </span>
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <select name="destination" class="form-select" aria-label="Default select example" required>
+                                        <option selected>Flying to</option>
+                                        <option value="Australia - Sydney (SYD)">Sydney Airport (SYD) - Australia (AU)</option>
+                                        <option value="Australia - Melbourne (MEL)">Melbourne Airport (MEL) - Australia (AU)</option>
+                                        <option value="Australia - Brisbane (BNE)">Brisbane Airport (BNE) - Australia (AU)</option>
+                                        <option value="Australia - Adelaide (ADL)">Adelaide Airport (ADL) - Australia (AU)</option>
+                                        <option value="Australia - Perth (PER)">Perth Airport (PER) - Australia (AU)</option>
+                                        <option value="Sri Lanka - Colombo (CMB)">Bandaranaike International Airport (CMB) - Sri Lanka (LK)</option>
+                                        <option value="Sri Lanka - Hambantota (HRI)">Mattala Rajapaksa International Airport (HRI) - Sri Lanka (LK)</option>
+                                        <option value="United States - New York City (JFK)">John F. Kennedy International Airport (JFK) - United States (US)</option>
+                                        <option value="United States - Los Angeles (LAX)">Los Angeles International Airport (LAX) - United States (US)</option>
+                                        <option value="United States - Chicago (ORD)">O'Hare International Airport (ORD) - United States (US)</option>
+                                        <option value="United States - Dallas/Fort Worth (DFW)">Dallas/Fort Worth International Airport (DFW) - United States (US)</option>
+                                        <option value="United Kingdom - London (LHR)">Heathrow Airport (LHR) - United Kingdom (UK)</option>
+                                        <option value="United Kingdom - London (LGW)">Gatwick Airport (LGW) - United Kingdom (UK)</option>
+                                        
+
+
+                                      </select>
+                                  </div>
+                                  <div>
+                                    <span id="textExample2" class="form-text"> Enter City or the airport. </span>
+                                  </div>                               
+                            </div>
+                        </div>
+                    </div>
+                    <div><br></div>
+                    <div class="form-group">
+                        <div class="form-datepicker" >
+                            <input name="date" type="date" class="form-control" id="exampleDatepicker1" required />
+                            <label for="exampleDatepicker1" class="form-label">Select departing date</label>
+                          </div>
+                                                           
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-md-6">
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="form-datepicker" >
+                                    <input name="date" type="date" class="form-control" id="exampleDatepicker1" required />
+                                    <label for="exampleDatepicker1" class="form-label">Select returning date</label>
+                                  </div>                                  
+                                </div>
+                        </div>
+                    </div> -->
+                    <div><br></div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">                                
+                                <select class="form-control" >
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+
+                                </select>
+                                <span class="form-text">Adults (18+)</span>
+                                <span class="select-arrow"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">                                
+                                <select class="form-control">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                                <span class="form-text">Children (0-17)</span>
+                                <span class="select-arrow"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">                               
+                                <select name="tclass" class="form-control" required>
+                                    <option value="Economy">Economy class</option>
+                                    <option value="Business">Business class</option>                                    
+                                </select>
+                                <span class="form-text">Travel class</span>
+                                <span class="select-arrow"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div><br></div>
+                    <div class="pt-1 mb-4">
+                        <p style="color: red;"></style>{{error}}</p>
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Search Flights</button>
+                      </div>                    
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+
+{% endblock %}
